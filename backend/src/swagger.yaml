@@ -1,0 +1,270 @@
+tags:
+  - name: ApiKey
+    description: Api Key management
+  - name: AuditLog
+    description: Auditable story of system state
+  - name: Device
+    description: Device management
+  - name: Download
+    description: Export data easily
+  - name: User
+    description: User management
+
+
+
+components:
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: "Please input `<type> <key>`.
+         For example: `Api-Key 7w5XoTDVg31hB/jAbitMDwKc`"
+
+  responses:
+    NotAuthorized:
+      description: "Unauthorized. Add an Authorization header with your ApiKey and the type Api-Key"
+    Ok:
+      description: "Common pattern of output"
+      content:
+        application/json:
+          schema:
+            required:
+            - success
+            properties:
+              success:
+                type: boolean
+                description: "False implies an error"
+              msg:
+                type: string
+                description: "Typically useful info on what happened"
+
+  schemas:
+    ApiKey:
+      type: object
+      required:
+        - _id
+        - name
+        - owner
+      properties:
+        _id:
+          type: string
+        created:
+          type: string
+          format: date
+        name:
+          type: string
+        owner:
+          type: string
+        ownerFullName:
+          type: string
+    ApiKeys:
+      type: array
+      items:
+        $ref: "#/components/schemas/ApiKey"
+    AuditLog:
+      type: object
+      required:
+        - callee
+        - calleeFullName
+        - date
+        - method
+      properties:
+        callee:
+          type: string
+        calleeFullName:
+          type: string
+        date:
+          type: string
+          format: date
+        method:
+          type: string
+        deviceId:
+          type: string
+        _deviceId:
+          type: string
+        userId:
+          type: string
+        userFullName:
+          type: string
+        apiKeyId:
+          type: string
+        fields:
+          type: string
+        comment:
+          type: string
+        as:
+          type: string
+    Comment:
+      type: object
+      required:
+        - callee
+        - comment
+        - date
+        - method
+      properties:
+        _id:
+          type: string
+        callee:
+          type: string
+        comment:
+          type: string
+        date:
+          type: string
+          format: date
+    Comments:
+      type: array
+      items:
+        $ref: "#/components/schemas/Comment"
+    Device:
+      type: object
+      required:
+        - addedByUser
+        - description
+        - deviceId
+        - deviceType
+      properties:
+        _id:
+          type: string
+        installed:
+          type: string
+          format: date
+        addedByUser:
+          type: string
+        description:
+          type: string
+        deviceId:
+          type: string
+        deviceType:
+          type: string
+        floorLevel:
+          type: string
+        lastSeen:
+          type: string
+        location:
+          type: object
+          properties:
+            _id:
+              type: string
+            coordinates:
+              type: array
+              items:
+                type: number
+                format: float
+                minItems: 2
+                maxItems: 2
+            type:
+              type: string
+              enum:
+                - Point
+        image:
+          type: string
+          format: binary
+        status:
+          type: string
+    Devices:
+      type: array
+      items:
+        $ref: "#/components/schemas/Device"
+    DeviceUpdate:
+      type: object
+      properties:
+        description:
+          type: string
+        deviceId:
+          type: string
+        deviceType:
+          type: string
+        floorLevel:
+          type: string
+        lastSeen:
+          type: string
+        location:
+          type: object
+          properties:
+            _id:
+              type: string
+            coordinates:
+              type: array
+              items:
+                type: number
+                format: float
+                minItems: 2
+                maxItems: 2
+            type:
+              type: string
+              enum:
+                - Point
+        image:
+          type: string
+          format: binary
+        status:
+          type: string
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+          description: "Users full name"
+        email:
+          type: string
+        username:
+          type: string
+          description: "Username used for logging in"
+        password:
+          type: string
+          description: "bcrypt hashed and salted password"
+        roles:
+          type: array
+          items:
+            type: string
+            enum: ["role-manager", "user-manager", "api-key-manager", "api-key-user", "device-manager"]
+        superuser:
+          type: boolean
+          description: "A superuser has all permissions"
+    OtherUser:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+          description: "Users full name"
+        username:
+          type: string
+          description: "Username used for logging in"
+        roles:
+          type: array
+          items:
+            type: string
+            enum: ["role-manager", "user-manager", "api-key-manager", "api-key-user", "device-manager"]
+        superuser:
+          type: boolean
+          description: "A superuser has all permissions"
+    OtherUsers:
+      type: array
+      items:
+        $ref: "#/components/schemas/OtherUser"
+    Profile:
+      type: object
+      properties:
+        _id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+          description: "Users full name"
+        username:
+          type: string
+          description: "Username used for logging in"
+        roles:
+          type: array
+          items:
+            type: string
+            enum: ["role-manager", "user-manager", "api-key-manager", "api-key-user", "device-manager"]
+        superuser:
+          type: boolean
+          description: "A superuser has all permissions"

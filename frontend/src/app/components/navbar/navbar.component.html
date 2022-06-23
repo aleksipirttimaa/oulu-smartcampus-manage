@@ -1,0 +1,37 @@
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Smart Campus</a>
+    <button class="navbar-toggler" type="button" (click)="toggle()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse"
+      [ngClass]="{ 'show': open }">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/map']">Map</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/list']">List</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li *ngIf="authService.authorizedAs('user-manager', 'role-manager')" class="nav-item active">
+          <a class="nav-link" [routerLink]="['/users']">Users</a>
+        </li>
+        <li *ngIf="authService.authorizedAs('user-manager')" class="nav-item active">
+          <a class="nav-link" [routerLink]="['/register']">Register</a>
+        </li>
+        <li *ngIf="authService.loggedIn()" class="nav-item active">
+          <a class="nav-link" [routerLink]="['/profile']">Profile</a>
+        </li>
+        <li *ngIf="!authService.loggedIn()" class="nav-item active">
+          <a class="nav-link" [routerLink]="['/login']">Login</a>
+        </li>
+        <li *ngIf="authService.loggedIn()" class="nav-item active">
+          <a class="nav-link" href="#" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

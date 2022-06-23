@@ -1,0 +1,19 @@
+#jumbotron-cards > button {
+	width: 8em;
+	height: 6em;
+	margin-top: 1em;
+	margin-bottom: 3em;
+}
+
+#jumbotron-cards > button > p {
+	margin-bottom: 0em;
+}
+
+#jumbotron-cards > button > .small {
+	font-size: 0.9em;
+}
+
+div.col-md-6 {
+	margin-top: 0.3em;
+	margin-bottom: 1.2em;
+}

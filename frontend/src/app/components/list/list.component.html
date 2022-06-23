@@ -1,0 +1,16 @@
+<br>
+<div class="container">
+  <h2 class="page-header">List</h2>
+  <form (submit)="onSearch()">
+    <div class="input-group mb-3">
+      <input type="text" [(ngModel)]="newSearch" name="newSearch" class="form-control">
+      <div class="input-group-append">
+        <input type="submit" class="btn btn-primary" [disabled]="newSearch.length < 3" value="Search">
+      </div>
+    </div>
+  </form>
+  <app-device-list [devices]="devices" *ngIf="!neverSearched"></app-device-list>
+  <p *ngIf="neverSearched">Start by typing a seach query above. You can search by the <code>description</code>, <code>deviceId</code> or <code>status</code>.
+  <h2 class="page-header" *ngIf="unmapped">Unmapped devices</h2>
+  <app-device-list [devices]="unmapped" *ngIf="unmapped"></app-device-list>
+</div>

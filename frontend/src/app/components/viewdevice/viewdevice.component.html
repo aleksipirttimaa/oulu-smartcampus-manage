@@ -1,0 +1,49 @@
+<br>
+<div class="container">
+  <h2 class="page-header">Device info</h2>
+</div>
+
+<div class="container">
+  <div *ngIf="device" class="container m-0 p-0">
+    <div class="row">
+      <div class="col">
+        <app-previewdevice [byDevice]="device"></app-previewdevice>
+      </div>
+      <div class="col">
+        <app-device-card [card]="card"></app-device-card> 
+      </div>
+      <div class="col" *ngIf="device.image || device.deviceType.startsWith('Elsys ERS')">
+        <p *ngIf="device.image">This device has an image, but it's not shown.</p> <!-- TODO -->
+        <img *ngIf="!device.image && device.deviceType.startsWith('Elsys ERS')" src="assets/ERSsensor.jpg" />
+      </div>
+    </div>
+  </div>
+  
+  <br>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button *ngIf="authService.authorizedAs('device-manager')" type="button"
+        class="btn btn-secondary" 
+        [routerLink]="['/updatedevice', _id]">
+      Edit
+    </button>
+    <button type="button" class="btn btn-secondary"
+        [routerLink]="['/map']"
+        [queryParams]="{ activateById: _id }"
+        *ngIf="device && device.location">
+      Open in map
+    </button>
+    <button type="button" class="btn btn-secondary"
+        (click)="this.deviceService.updateLocationFor = this._id"
+        [routerLink]="['/map']"
+        *ngIf="device && !device.location && authService.authorizedAs('device-manager')">
+      Add location
+    </button>
+    <a *ngIf="device" class="btn btn-secondary" href="https://smartcampus.oulu.fi/grafana/d/99p8f32Gk/room-sensoring?orgId=1&refresh=5m&var-DevEUIs={{ deviceService.sensorEui(device) }}">
+      Open in Grafana
+    </a>
+  </div>
+</div>
+<br>
+
+<app-auditlog *ngIf="authService.authorizedAs('device-manager')" [commentsDevice]="_id"></app-auditlog>
+<app-auditlog [auditDevice]="_id"></app-auditlog>

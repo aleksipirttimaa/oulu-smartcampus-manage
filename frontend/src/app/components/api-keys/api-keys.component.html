@@ -1,0 +1,69 @@
+<div class="container">
+  <h2 class="page-header">Api Keys</h2>
+</div>
+
+<!-- list -->
+<div class="container" *ngIf="apiKeys.length === 0">
+  <p *ngIf="allUsers">No one has Api Keys</p>
+  <p *ngIf="!allUsers">You have no Api Keys</p>
+</div>
+<div class="container" *ngIf="apiKeys.length > 0">
+  <table class="table">
+  <thead>
+    <th scope="col" *ngIf="allUsers">User</th>
+    <th scope="col">Name</th>
+    <th scope="col">Created</th>
+    <th scope="col">Action</th>
+  </thead>
+  <tbody id="api-keys-table">
+    <tr *ngFor="let a of apiKeys">
+      <th scope="col" *ngIf="allUsers">{{ a.ownerFullName }}</th>
+      <th scope="col">{{ a.name }}</th>
+      <th scope="col"><app-format-date [date]="a.created"></app-format-date></th>
+      <th scope="col">
+        <div class="btn-group">
+          <ng-template #content>
+            <p><code><span>Authorization: </span><span>Api-Key {{a.key}}</span></code></p>
+          </ng-template>
+          <button type="button" class="btn btn-primary" placement="left" [ngbPopover]="content" popoverTitle="Api-Key" *ngIf="!allUsers">Show</button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-danger" (click)="onDelete(a._id)">Delete</button>
+          </div>
+        </div>
+      </th>
+    </tr>
+  </tbody>
+  </table>
+</div>
+<p></p>
+<!-- adding new -->
+<div class="container" *ngIf="!allUsers">
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Api Key added</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" *ngIf="justAdded">
+      <p>Your new Api Key is:</p>
+      <p>
+        <code>{{justAdded.key}}</code>
+      </p>
+      <p>Use it by adding an <code>Authorization</code>-header with type <code>Api-Key</code> to your HTTP request.</p>
+      <p><code><span>Authorization: </span><span>Api-Key {{justAdded.key}}</span></code></p>
+    </div>
+    <div class="spinner-border" role="status" *ngIf="!justAdded">
+      <span class="sr-only"></span>
+    </div>
+  </ng-template>
+  <form (submit)="onAdd(content)">
+    <div class="input-group mb-3">
+      <input type="text" [(ngModel)]="addName" name="addName" class="form-control">
+      <div class="input-group-append">
+        <input type="submit" class="btn btn-primary" value="Add new">
+      </div>
+    </div>
+  </form>
+</div>
+<br>

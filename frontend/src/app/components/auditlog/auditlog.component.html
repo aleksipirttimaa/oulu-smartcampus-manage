@@ -1,0 +1,80 @@
+<!-- view title -->
+<div class="container">
+  <h2 *ngIf="!allowComments" class="page-header">Audit Log</h2>
+  <h2 *ngIf="allowComments" class="page-header">Comments</h2>
+</div>
+
+<!-- helpful comment -->
+<div class="container" *ngIf="entries.length === 0">
+  <p *ngIf="!allowComments && ready">This audit log is empty</p>
+  <p *ngIf="allowComments && ready">No comments</p>
+</div>
+
+<!-- list entries -->
+<div class="container" *ngIf="entries.length > 0">
+  <p *ngIf="userSelfAudit">This is your personal audit log</p>
+  <p *ngIf="!authService.loggedIn()">Guests can only view the latest events</p>
+  <div class="list-group">
+    <div *ngFor="let e of entries" class="list-group-item list-group-item-action flex-column align-items-start">
+      <!-- comprehensive multi method view, maximum verbosity -->
+      <div *ngIf="userSelfAudit || auditDevice || e.method !== 'comment'">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-2">
+            <b>{{ e.method }}</b>
+            <span *ngIf="!auditDevice && e.deviceId">
+              device
+              <b><a [routerLink]="['/viewdevice', e._deviceId]">{{ e.deviceId }}</a></b>
+            </span>
+            <span *ngIf="e.userId">
+              for user
+              <b>{{ e.userFullName }}</b>
+            </span>
+          </h5>
+          <small *ngIf="!userSelfAudit">{{ e.calleeFullName }}</small>
+          <small *ngIf="userSelfAudit">Me</small>
+        </div>
+        <p *ngIf="e.method === 'mark' || e.method === 'update' || e.method === 'comment'">
+          <span *ngIf="e.method === 'comment'">
+            <b>{{ e.comment }}</b>
+          </span>
+          <span *ngIf="e.method === 'mark'">
+            marked as
+            <b>{{ e.as }}</b>
+          </span>
+          <span *ngIf="e.method === 'update'">
+            updated
+            <b *ngFor="let f of e.fields ; let i = index;">
+              {{ f }}<span *ngIf="i < e.fields.length - 1">, </span>
+            </b>
+            <span *ngIf="e.fields.includes('status')">
+              marked as <b>{{ e.as }}</b>
+            </span>
+          </span>
+        </p>
+        <small><app-format-date [date]="e.date"></app-format-date></small>
+      </div>
+      <!-- comment view, server result includes comments only -->
+      <div *ngIf="e.method === 'comment' && !(userSelfAudit || auditDevice)">
+        <div class="d-flex w-100 justify-content-between">
+          <b>{{ e.comment }}</b>
+          <small *ngIf="!userSelfAudit">{{ e.calleeFullName }}</small>
+        </div>
+        <small><app-format-date [date]="e.date"></app-format-date></small>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<!-- add comments -->
+<div *ngIf="allowComments" class="container">
+  <form (submit)="onComment()">
+    <div class="input-group mb-3">
+      <input type="text" [(ngModel)]="newComment" name="newComment" class="form-control">
+      <div class="input-group-append">
+        <input type="submit" class="btn btn-primary" value="Comment">
+      </div>
+    </div>
+  </form>
+</div>
+<br>

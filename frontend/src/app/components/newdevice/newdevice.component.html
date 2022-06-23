@@ -1,0 +1,81 @@
+<br>
+<div class="container">
+  <h2 class="page-header">Add new device</h2>
+  <form (submit)="onRegisterSubmit()">
+
+    <div class="form-group">
+      <label for="deviceType">Device type</label>
+      <select class="form-control"  id="deviceType"
+              required
+              [(ngModel)]="deviceType" name="deviceType">
+        <option *ngFor="let deviceType of deviceTypeOptions" [value]="deviceType">{{deviceType}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Device ID / DevEUI in format A81758FFFE030F53</label>
+      <input required type="text" [(ngModel)]="deviceId" name="deviceId" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Description of install location</label>
+      <input type="text" [(ngModel)]="description" name="description" class="form-control" >
+    </div>
+
+    <div class="form-group">
+      <label>Picture of the install location</label>
+      <input type="file"  accept="image/*"  [(ngModel)]="image" name="image" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select class="form-control"  id="status"
+              required
+              [(ngModel)]="status" name="status">
+        <option *ngFor="let status of statusOptions" [value]="status">{{status}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Installation date</label>
+      <div class="input-group">
+        <input class="form-control" placeholder="YYYY-MM-DD"
+          name="dp" [(ngModel)]="installed" ngbDatepicker #d="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary calendar" (click)="installedNow()" type="button">
+            Now
+          </button>
+          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+            Select
+          </button>
+          <button class="btn btn-outline-danger calendar" (click)="clearInstalled()" type="button">
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="floorlevel">Floor level</label>
+      <select class="form-control"  id="floorlevel"
+              required
+              [(ngModel)]="floorlevel" name="floorlevel">
+        <option *ngFor="let floorlevel of floorLevelOptions" [value]="floorlevel">{{floorlevel}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Location</label>
+      <input readonly required type="text" [value]="location | location" name="location" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Added by</label>
+      <input *ngIf="user" readonly required type="text" [(ngModel)]="user.name" name="user.name" class="form-control">
+      <input *ngIf="!user" readonly required type="text" class="form-control">
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Add">
+  </form>
+</div>
+<br><br>

@@ -1,0 +1,50 @@
+<div class="map" id="map" (document:keydown.p)="onMapViewDebug($event)"></div>
+
+<nav class="on-map on-map-center">
+  <div class="btn-group" *ngIf="showAdminControls">
+    <button type="button" class="btn btn-light" *ngIf="!canAddDevice && !deviceService.updateLocationFor" (click)="canAddDevice = true">
+      Add device
+    </button>
+    <button type="button" class="btn btn-light" *ngIf="canAddDevice" (click)="canAddDevice = false">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-light"
+        *ngIf="canDeleteDevice"
+        [routerLink]="['/viewdevice', activeDevice._id]">
+      Info
+    </button>
+    <button type="button" class="btn btn-light" *ngIf="canModifyDevice" (click)="modifyDevice()">
+      Edit
+    </button>
+    <button type="button" class="btn btn-danger" *ngIf="canDeleteDevice" (click)="deleteDevice()">
+      Delete
+    </button>
+    <button type="button" class="btn btn-light" *ngIf="deviceService.updateLocationFor" (click)="cancelLocationUpdate()">
+      Cancel
+    </button>
+  </div>
+</nav>
+
+<nav class="on-map on-map-side on-map-right">
+  <div ngbDropdown>
+    <button class="btn btn-light dropdown-toggle" id="mapGoToDropdown" ngbDropdownToggle></button>
+    <div ngbDropdownMenu>
+      <a ngbDropdownItem (click)="onMapJumpTo($event)" *ngFor="let box of jumpToKeys">{{box}}</a>
+    </div>
+  </div>
+  <p></p>
+  <div class="btn-group-vertical" *ngIf="ready">
+    <ng-container *ngFor="let level of supportedLevels">
+      <button class="btn btn-light"
+              *ngIf="!hiddenLevels.includes(level)"
+              (click)="onMapLevelFilter($event)">
+        {{level}}
+      </button>
+      <button class="btn btn-secondary"
+              *ngIf="hiddenLevels.includes(level)"
+              (click)="onMapLevelFilter($event)">
+        {{level}}
+      </button>
+    </ng-container>
+  </div>
+</nav>

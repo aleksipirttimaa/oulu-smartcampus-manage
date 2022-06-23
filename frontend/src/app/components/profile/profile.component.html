@@ -1,0 +1,27 @@
+<br>
+<div class="container" *ngIf="user">
+  <h2 class="page-header">{{user.name}}</h2>
+  <div class="container">
+    <ul class="list-group">
+      <li class="list-group-item">Username: {{ user.username }}</li>
+      <li class="list-group-item">Email: {{ user.email }}</li>
+      <li class="list-group-item" *ngIf="user.roles && user.roles.length > 0">
+        Roles:
+        <span class="badge badge-secondary ml-1" *ngFor="let role of user.roles">{{ role }}</span>
+      </li>
+      <li class="list-group-item" *ngIf="user.superuser">This user is a superuser</li>
+    </ul>
+  </div>
+  <br>
+  <div class="btn-group">
+    <button type="button" class="btn btn-primary" (click)="onChangePassword()">
+      Request password change
+    </button>
+    <button type="button" class="btn btn-danger" (click)="onRemove()">
+      Delete my account
+    </button>
+  </div>
+</div>
+<br>
+<app-api-keys *ngIf="authService.authorizedAs('api-key-user')" [allUsers]=false></app-api-keys>
+<app-auditlog *ngIf="user" [auditUser]=user.username></app-auditlog>

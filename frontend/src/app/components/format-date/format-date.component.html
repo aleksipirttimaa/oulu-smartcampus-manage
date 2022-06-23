@@ -1,0 +1,9 @@
+<ng-template #content let-modal>
+  <p class="text-nowrap m-0 p-0">
+  	<code>{{ isoString }}</code> (ISO 8601)
+  </p>
+  <small>Click to copy to clipboard.</small>
+</ng-template>
+<span [ngbPopover]="content" triggers="mouseenter:mouseleave">
+  <app-click-to-copy [text]="isoString">{{ formatted }}</app-click-to-copy>
+</span>

@@ -1,0 +1,77 @@
+<br>
+<div class="container">
+  <p></p>
+  <div class="jumbotron text-center">
+    <h1>Smart Campus Oulu</h1>
+    <p class="lead">Welcome to the University of Oulu Smart Campus platform home</p>
+    <p></p>
+    <div class="" id="jumbotron-cards">
+      <button type="button" class="btn btn-secondary ml-5 mr-5">
+        <p class="text-sm-center"><b>1</b></p>
+        <p class="small">Application</p>
+      </button>
+      <button type="button" class="btn btn-secondary ml-5 mr-5">
+        <p class="text-sm-center"><b>{{ nOnline }}</b></p>
+        <p class="small">Sensors</p>
+      </button>
+      <button type="button" class="btn btn-secondary ml-5 mr-5">
+        <p class="text-sm-center"><b>1</b></p>
+        <p class="small">GitHub</p><p class="small">Repository</p>
+      </button>
+    </div>
+  </div>
+  <p></p>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Device management</h3>
+      <p> Moderators can add new devices and manage existing installations using the map. Color of the icon tells you the installation status <span style="color: red;">planned</span>/<span style="color: orange;">installed</span>/<span style="color: green;">online</span>.</p>
+    </div>
+    <div class="col-md-6">
+      <h3>Open data</h3>
+      <p>
+        The data collected by this system is freely available under the CC BY 4.0 license. More static .csv-files of these measurements will be released over time.
+      </p>
+      <div class="btn-group">
+        <a class="btn btn-secondary"
+            href="https://smartcampus.oulu.fi/open-data">
+          Read more</a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3>API documentation</h3>
+      <p>
+        This application's REST API is documented and available as a playground on Swagger.
+        Endpoints with a lock icon are protected, and you need to request and API Key to use them.
+      </p>
+      <div class="btn-group">
+        <a class="btn btn-secondary"
+            href="https://smartcampus.oulu.fi/manage/api/docs/">
+          Open documentation</a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3>Map view</h3>
+      <p>
+        Our installation includes LoRaWAN and NB-IoT devices.
+        This map represents our current network. Click on a sensor for more info.
+      </p>
+      <button type="button" class="btn btn-primary" [routerLink]="['/map']">Open map</button>
+    </div>
+    <div class="col-md-6">
+      <h3>Visualization</h3>
+      <p>Grafana can be used to view customized dashboards. Most dashboards are curated by us for specific uses. We also utilize grafana for it's alerting features. Navigate to grafana or see an example dashboard.</p>
+      <div class="btn-group">
+        <a class="btn btn-primary" href="https://smartcampus.oulu.fi/grafana/d/eUWYAnNMk/botanical-garden?orgId=1">Botanical garden</a>
+        <a class="btn btn-primary" href="https://smartcampus.oulu.fi/grafana/d/x7IZuIDGk/summary?orgId=1&refresh=1m">Summary</a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3>Bootcamp</h3>
+      <p>Sensor Bootcamp is a simple tool for checking the status of a sensor.</p>
+      <div class="btn-group">
+        <a class="btn btn-secondary" href="https://smartcampus.oulu.fi/static/bootcamp/?deveui=A81758FFFE030F53">Open sensor bootcamp</a>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,64 @@
+version: '3.4'
+
+volumes:
+  mongo_data:
+    name: ${MONGO_VOLUME}
+
+services:
+  # web container runs nginx
+  web:
+    build: 
+      context: ./frontend
+      args:
+        - APP_BASE_HREF=${APP_BASE_HREF}
+    restart: ${RESTART_POLICY}
+    ports:
+      - "${WEB_HOST_PORT}:8080"
+    restart: ${RESTART_POLICY}
+    networks:
+      manage:
+
+  # backend container runs node
+  backend:
+    build: ./backend
+    restart: ${RESTART_POLICY}
+    environment:
+      - DB_URI
+      - DB_USER
+      - DB_PASS
+      - JWT_SECRET
+      - SMTP_ALLOW
+      - SMTP_HOST
+      - SMTP_ALLOWINSECURE
+      - SMTP_USER
+      - SMTP_PASS
+      - SMTP_FROMADDR
+      - INFLUX_HOST
+      - INFLUX_PORT
+      - INFLUX_PROTO
+      - INFLUX_USER
+      - INFLUX_PASS
+      - INFLUX_DB
+    networks:
+      manage:
+
+  # mongo as a persistent database
+  mongo:
+    image: mongo:4.2-bionic
+    restart: ${RESTART_POLICY}
+    networks:
+      manage:
+
+  # docker-compose run mongo-cli to use mongo cli
+  mongo-cli:
+    image: mongo:4.2-bionic
+    restart: 'no'
+    entrypoint:
+      - mongo
+      - --host
+      - mongo
+    networks:
+      manage:
+
+networks:
+  manage:

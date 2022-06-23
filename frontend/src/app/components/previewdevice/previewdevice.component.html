@@ -1,0 +1,54 @@
+<table class="table table-sm">
+  <tbody *ngIf="ready && device" id="device-table">
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">{{ device.deviceType }}</th>
+    </tr>
+    <tr>
+      <th scope="col">Status</th>
+      <th scope="col">
+        <ng-container *ngIf="device.status !== 'online' && device.status !== 'offline'">
+          {{ device.status }}
+        </ng-container>
+        <ng-container *ngIf="device.status === 'online'">
+          <span class="badge badge-success">{{ device.status }}</span>
+        </ng-container>
+        <ng-container *ngIf="device.status === 'offline'">
+          <span class="badge badge-danger">{{ device.status }}</span>
+        </ng-container>
+      </th>
+    </tr>
+    <tr>
+      <th scope="col">DevEUI</th>
+      <th scope="col"><app-click-to-copy>{{ device.deviceId }}</app-click-to-copy></th>
+    </tr>
+    <tr>
+      <th scope="col">Description</th>
+      <th scope="col">{{ device.description }}</th>
+    </tr>
+    <!--<tr *ngIf="!mapPopup">
+      <th scope="col">Added by</th>
+      <th scope="col"></th>
+    </tr> -->
+    <tr *ngIf="mapPopup">
+      <th scope="col">Added by</th>
+      <th scope="col">{{ device.addedByUserFullName }}</th> <!-- TODO -->
+    </tr>
+    <tr *ngIf="device.installed">
+      <th scope="col">Installed on</th>
+      <th scope="col"><app-format-date [date]="device.installed"></app-format-date></th>
+    </tr>
+    <tr>
+      <th scope="col">Floor</th>
+      <th scope="col">{{ device.floorLevel }}</th>
+    </tr>
+  </tbody>
+  <h5 *ngIf="ready && !device">Unknown device</h5>
+  <p *ngIf="ready && !device">This device may have been deleted.</p>
+</table>
+<div *ngIf="mapPopup && device" class="btn-group">
+  <button *ngIf="!authService.authorizedAs('device-manager')" type="button" class="btn btn-secondary"
+      [routerLink]="['/viewdevice', device._id]">
+    More info
+  </button>
+</div>

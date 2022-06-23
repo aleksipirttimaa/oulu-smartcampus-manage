@@ -1,0 +1,11 @@
+.container{
+  width: 100vw;
+  height: 100vh;
+  min-width: 400px;
+}
+
+flash-messages {
+	position: absolute;
+	width: 100%;
+	z-index: 9999;
+}

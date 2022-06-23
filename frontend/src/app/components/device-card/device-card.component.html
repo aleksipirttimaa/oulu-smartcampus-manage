@@ -1,0 +1,79 @@
+<div class="d-flex flex-wrap justify-content-center">
+  <ng-container *ngFor="let item of card | keyvalue">
+    <div *ngIf="item.key !== 'lastSeen'" class="rounded bg-secondary item">
+      <ng-container *ngIf="!supportedKeys.includes(item.key)">
+        <p class="key">
+          {{ item.key | titlecase }}
+        </p>
+        <p class="value">
+          {{ item.value }}
+        </p>
+      </ng-container>
+      <ng-container *ngIf="item.key === 'battery'">
+        <p class="key">
+          Battery voltage
+        </p>
+        <p class="value">
+          {{ item.value | number : '1.2-2' }} V
+        </p>
+      </ng-container>
+      <ng-container *ngIf="item.key === 'co2'">
+        <p class="key">
+          CO2
+        </p>
+        <p class="value">
+          {{ item.value | number : '3.0-0' }} <small>PPM</small>
+        </p>
+      </ng-container>
+      <ng-container *ngIf="item.key === 'humidity'">
+        <p class="key">
+          Humidity
+        </p>
+        <p class="value">
+          {{ item.value | number : '1.0-1' }}%<small> RH</small>
+        </p>
+      </ng-container>
+      <ng-container *ngIf="item.key === 'temperature'">
+        <p class="key">
+          Air Temperature
+        </p>
+        <p class="value">
+          {{ item.value }} <small>°C</small>
+        </p>
+      </ng-container>
+      <ng-container *ngIf="item.key === 'sound_avg'">
+        <p class="key">
+          Average SPL
+        </p>
+        <p class="value">
+          {{ item.value }} <small>dB</small>
+        </p>
+      </ng-container>
+      <ng-container *ngIf="item.key === 'sound_peak'">
+        <p class="key">
+          Peak SPL
+        </p>
+        <p class="value">
+          {{ item.value }} <small>dB</small>
+        </p>
+      </ng-container>
+      <ng-container *ngIf="item.key === 'occupancy'">
+        <p class="key">
+          Occupancy
+        </p>
+        <p class="value">
+          <small>
+            <ng-container *ngif="item.value === 0">No body</ng-container>
+            <ng-container *ngif="item.value === 1">Pending</ng-container>
+            <ng-container *ngif="item.value === 2">Occupied</ng-container>
+          </small>
+        </p>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>
+<p *ngIf="card" class="lastSeen">
+  <small><i>
+    updated <app-format-date [date]="card.lastSeen"></app-format-date>
+  </i></small>
+</p>

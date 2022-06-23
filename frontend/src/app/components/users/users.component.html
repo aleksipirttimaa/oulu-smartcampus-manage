@@ -1,0 +1,36 @@
+<br>
+<div class="container" *ngIf="users">
+  <h2 class="page-header">Users</h2>
+  <table class="table">
+    <thead>
+      <th scope="col">Full name</th>
+      <th scope="col">Username</th>
+      <th scope="col">Action</th>
+    </thead>
+    <tbody id="users-table">
+      <tr *ngFor="let user of users">
+        <th scope="col">{{ user.name }}</th>
+        <th scope="col">{{ user.username }}</th>
+        <th scope="col">
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary"
+              (click)="manageUser = user._id"
+              (click)="modalService.open(manageUserModal, { size: 'lg' })">Manage user</button>
+            <button type="button" class="btn btn-secondary"
+              *ngIf="authService.authorizedAs('user-manager')"
+              (click)="onChangePasswordClick(user)">Reset password</button>
+            <button type="button" class="btn btn-danger"
+              *ngIf="authService.authorizedAs('user-manager')"
+              (click)="onRemoveClick(user)">Delete</button>
+          </div>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Manage user -->
+<ng-template #manageUserModal let-modal>
+  <app-manage-user [byId]="manageUser" [modal]="manageUserModal"></app-manage-user>
+</ng-template>
+<app-api-keys *ngIf="authService.authorizedAs('api-key-manager')" [allUsers]=true></app-api-keys>
+<app-auditlog *ngIf="authService.authorizedAs('user-manager')" [auditUsers]=true></app-auditlog>
